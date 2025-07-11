@@ -38,3 +38,15 @@ curl -X POST -H "Content-Type: application/json" \ -d '{"robot_id":"T1_pinky1", 
 
 - 웹에서 로그 확인
     웹 브라우저에서 http://<서버_IP>:5000/pinky1/status/all 주소로 접속하면, 최근 상태 로그를 확인할 수 있습니다.
+- 참고 : 운영 환경에서 Flask 를 배포하는 예시
+    pip install gunicorn
+    gunicorn -w 4 -b 0.0.0.0:5000 app:app
+
+** 문제 발생 시 해결법
+1. Flask 서버 실행 시 "Address already in use" 에러 해결법
+2. 현재 사용 중인 프로세스 찾기 -> lsof -i :5000
+3. 해당 프로세스 종료하기 -> kill <찾은 PID> (ex. kill 12345)
+4. 만약 바로 종료되지 않으면 강제로 종료하기 : ex. kill -9 12345
+5. lsof 명령어로 찾지 못하는 경우:
+  ss -ltnp | grep 5000
+  sudo fuser -v -n tcp 5000
