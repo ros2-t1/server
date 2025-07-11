@@ -109,3 +109,17 @@
     docker build -t robot-control .
     docker run -d -p 5000:5000 --name robot-control robot-control
 
+
+* 연결이 되지 않을 때 확인할 점
+
+- docker ps : 서버 IP / PORT 확인.
+  PORTS 항목이 0.0.0.0:5000->5000/tcp처럼 되어 있어야 외부에서 접근 가능.
+- docker logs robot-control : 서버가 제대로 실행중인지 확인
+  서버에서 IP 확인하기 : hostname -I
+  curl http://localhost:5000/pinky1/status
+  curl http://<서버의_실제_IP>:5000/pinky1/status 
+- Pinky 에서 ping 테스트 : ping <서버의_실제_IP>
+- Docker 컨테이너 실행 옵션 확인:
+  컨테이너 실행 시 반드시 -p 5000:5000 옵션을 줘야 외부에서 접근 가능docker run -d -p 5000:5000 --name robot-control robot-control
+- 서버 IP가 192.168.0.28이라면, 핑키에서 아래처럼 요청해야 합니다.
+curl -X POST -H "Content-Type: application/json" \   -d '{"robot_id":"T1_pinky1", "status":"moving", "emergency":0}' \   http://192.168.0.28:5000/pinky1/status
