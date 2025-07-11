@@ -31,10 +31,10 @@
     - 로봇 명령 클라이언트 실행 : python3 /home/pinky/jeong/pinky_command_client.py
 
 << 서버와 통신 테스트 >>
-- 상태 전송
-curl -X POST -H "Content-Type: application/json" \ -d '{"robot_id":"T1_pinky1", "status":"moving", "emergency":0}' \ http://<서버_IP>:5000/pinky1/status
-- 명령 전송
-curl -X POST -H "Content-Type: application/json" \ -d '{"robot_id":"T1_pinky1", "command":"go_to_A"}' \ http://<서버_IP>:5000/pinky1/command
+- 상태 전송:
+  * curl -X POST -H "Content-Type: application/json" \ -d '{"robot_id":"T1_pinky1", "status":"moving", "emergency":0}' \ http://<서버_IP>:5000/pinky1/status
+- 명령 전송:
+  * curl -X POST -H "Content-Type: application/json" \ -d '{"robot_id":"T1_pinky1", "command":"go_to_A"}' \ http://<서버_IP>:5000/pinky1/command
 
 - 웹에서 로그 확인
     웹 브라우저에서 http://<서버_IP>:5000/pinky1/status/all 주소로 접속하면, 최근 상태 로그를 확인할 수 있습니다.
