@@ -4,7 +4,7 @@ from geometry_msgs.msg import Twist
 import requests
 import time
 
-SERVER_IP = "192.168.0.28"  # 서버의 실제 IP로 수정
+SERVER_IP = "20.249.209.1"  # 서버의 실제 IP로 수정
 ROBOT_ID = "T1_pinky1"
 
 def get_command():

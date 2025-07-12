@@ -3,20 +3,63 @@
 <head>
   <meta charset="UTF-8">
   <title>Pinky1 Status Monitor</title>
+  <style>
+    body {
+      font-family: sans-serif;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      background-color: #f2f2f2;
+    }
+    .emergency {
+      background-color: #ffcccc;
+    }
+  </style>
 </head>
 <body>
   <h2>Pinky1 Status (Auto Refresh)</h2>
-  <pre id="status"></pre>
+  <table id="status-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Robot ID</th>
+        <th>Status</th>
+        <th>Emergency</th>
+        <th>Updated At</th>
+      </tr>
+    </thead>
+    <tbody>
+    </tbody>
+  </table>
   <script>
     function fetchStatus() {
       fetch('http://localhost:5000/pinky1/status/all')
         .then(response => response.json())
         .then(data => {
-          let text = '';
+          const tableBody = document.querySelector('#status-table tbody');
+          tableBody.innerHTML = '';
           data.data.forEach(row => {
-            text += JSON.stringify(row) + '\n';
+            const tr = document.createElement('tr');
+            if (row[3] === 1) {
+              tr.classList.add('emergency');
+            }
+            tr.innerHTML = `
+              <td>${row[0]}</td>
+              <td>${row[1]}</td>
+              <td>${row[2]}</td>
+              <td>${row[3]}</td>
+              <td>${row[4]}</td>
+            `;
+            tableBody.appendChild(tr);
           });
-          document.getElementById('status').textContent = text;
         });
     }
     fetchStatus();

@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, render_template
 import sqlite3
 
 app = Flask(__name__)
@@ -71,7 +71,37 @@ def get_all_status():
     return {'data': rows}
 
 
+
+@app.route('/')
+def index():
+    return render_template('index.html')
+
+@app.route('/status')
+def status():
+    return render_template('status.html')
+
+@app.route('/command')
+def command():
+    return render_template('command.html')
+
+
+# pinky1 최근 명령 20개 조회
+@app.route('/pinky1/command/all', methods=['GET'])
+def get_all_commands():
+    conn = sqlite3.connect('robot.db')
+    c = conn.cursor()
+    c.execute(
+        "SELECT * FROM pinky_command WHERE robot_id=? ORDER BY created_at DESC LIMIT 20",
+        ('T1_pinky1',)
+    )
+    rows = c.fetchall()
+    conn.close()
+    return {'data': rows}
+
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
+
+
 
 
